@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/mage.png" type="Texture" id=1]
 [ext_resource path="res://mage/mage.gd" type="Script" id=2]
 [ext_resource path="res://demon/demon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://behaviours/target_velocity_behaviour.gd" type="Script" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 50.9197
@@ -28,6 +29,12 @@ position = Vector2( 81.5661, -1.68179 )
 __meta__ = {
 "_gizmo_extents_": 48.8
 }
+
+[node name="TargetVelocityBehaviour" type="Node2D" parent="MageBody"]
+position = Vector2( -151.329, -151.329 )
+script = ExtResource( 4 )
+acceleration_amount = 2000.0
+friction = 1000.0
 
 [node name="Demon" parent="." instance=ExtResource( 3 )]
 position = Vector2( 425.987, 680.819 )
