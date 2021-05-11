@@ -1,7 +1,5 @@
 extends KinematicBody2D
 
-var life = 100
-
 var max_speed = 600
 
 var rotation_speed = PI * 0.4
@@ -12,6 +10,12 @@ onready var mage = get_tree().current_scene.find_node("MageBody")
 
 onready var animationPlayerWalk = $AnimationPlayerWalk
 onready var targetVelocityBehaviour = $TargetVelocityBehaviour
+
+var attacking = false
+var attack_cooled_down = true
+
+export(float) var damage = 10
+export(float) var knockback_speed = 500
 
 func front():
 	return Vector2.RIGHT.rotated(self.rotation)
@@ -36,17 +40,33 @@ func rotate_towards(target_position, delta):
 		rotate(sign(to_target) * max_rotation)
 
 func _physics_process(delta):
-	if mage:
+	if is_instance_valid(mage):
 		rotate_towards(mage.position, delta)
 	
 	animationPlayerWalk.playback_speed = targetVelocityBehaviour.velocity.length() / max_speed
+
+func _process(delta):	
+	if attack_cooled_down && attacking:
+		attack()
+
+func attack():
+	for body in $AttackArea.get_overlapping_bodies():
+		DamageableBehaviour.do_damage(body, damage, self.position, knockback_speed)
+			
+	attack_cooled_down = false
+	$AttackCooldownTimer.start()
 		
 func target_velocity():
 	return front() * max_speed
-		
-func receive_damage(damage):
-	life -= damage
-	animationPlayerDamage.stop()
-	animationPlayerDamage.play("Damage")
-	if life <= 0:
-		queue_free()
+
+func _on_AttackCooldownTimer_timeout():
+	attack_cooled_down = true
+
+
+func _on_AttackArea_body_entered(body):
+	attacking = true
+
+
+func _on_AttackArea_body_exited(body):
+	if $AttackArea.get_overlapping_bodies().empty():
+		attacking = false

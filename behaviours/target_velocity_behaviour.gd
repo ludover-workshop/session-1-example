@@ -24,3 +24,6 @@ func move_with_target_velocity(target_velocity, delta):
 	
 	get_parent().move_and_slide(velocity)	
 
+func apply_knockback(source, knockback_speed):
+	var knockback_direction = (get_parent().position - source).normalized()
+	velocity = velocity + knockback_direction * knockback_speed

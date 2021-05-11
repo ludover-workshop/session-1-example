@@ -1,0 +1,44 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://meteor/Meteor.gd" type="Script" id=1]
+[ext_resource path="res://assets/meteor04.png" type="Texture" id=2]
+[ext_resource path="res://assets/meteor05.png" type="Texture" id=3]
+[ext_resource path="res://assets/meteor06.png" type="Texture" id=4]
+[ext_resource path="res://assets/meteor03.png" type="Texture" id=5]
+[ext_resource path="res://assets/meteor01.png" type="Texture" id=6]
+[ext_resource path="res://assets/meteor07.png" type="Texture" id=7]
+[ext_resource path="res://assets/meteor09.png" type="Texture" id=8]
+[ext_resource path="res://assets/meteor08.png" type="Texture" id=9]
+[ext_resource path="res://assets/meteor00.png" type="Texture" id=10]
+[ext_resource path="res://assets/meteor02.png" type="Texture" id=11]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 10 ), ExtResource( 6 ), ExtResource( 11 ), ExtResource( 5 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 83.9799
+
+[node name="Meteor" type="Node2D"]
+script = ExtResource( 1 )
+speed = 500.0
+time_to_live = 5.0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -61.4721, -9.79993 )
+frames = SubResource( 1 )
+frame = 9
+playing = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 2 )
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
