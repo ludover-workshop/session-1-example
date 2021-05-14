@@ -3,6 +3,10 @@ extends Node2D
 export(float) var damage = 50
 export(float) var knockback_speed = 1000
 
+
+func _ready():
+	Main.shakeCamera(get_tree(), 30, 1, 5)
+
 func _draw():
 	var color = Color.yellow
 	color.a = 0.5

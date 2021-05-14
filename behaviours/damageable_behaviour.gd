@@ -1,6 +1,8 @@
 extends Node2D
 class_name DamageableBehaviour
 
+signal damaged
+
 var life = 100
 
 onready var animationPlayerDamage = get_parent().get_node_or_null("AnimationPlayerDamage")
@@ -17,6 +19,8 @@ func receive_damage(damage, source_position = null, knockback_speed = null):
 	
 	if(source_position && knockback_speed && targetVelocityBehaviour):
 		targetVelocityBehaviour.apply_knockback(source_position, knockback_speed)
+		
+	emit_signal("damaged")
 
 static func do_damage(body, damage, source_position = null, knockback_speed = null):
 	var damageableNode = body.get_node_or_null("DamageableBehaviour")

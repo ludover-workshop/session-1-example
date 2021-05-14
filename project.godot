@@ -9,10 +9,20 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Camera2D",
+"class": "CameraShaker",
+"language": "GDScript",
+"path": "res://camera/Camera2D.gd"
+}, {
 "base": "Node2D",
 "class": "DamageableBehaviour",
 "language": "GDScript",
 "path": "res://behaviours/damageable_behaviour.gd"
+}, {
+"base": "Node2D",
+"class": "Main",
+"language": "GDScript",
+"path": "res://Main.gd"
 }, {
 "base": "Node2D",
 "class": "Projectile",
@@ -25,7 +35,9 @@ _global_script_classes=[ {
 "path": "res://behaviours/target_velocity_behaviour.gd"
 } ]
 _global_script_class_icons={
+"CameraShaker": "",
 "DamageableBehaviour": "",
+"Main": "",
 "Projectile": "",
 "TargetVelocityBehaviour": ""
 }
