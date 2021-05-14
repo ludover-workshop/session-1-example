@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://assets/fireball_02.png" type="Texture" id=1]
 [ext_resource path="res://assets/fireball_00.png" type="Texture" id=2]
@@ -11,6 +11,35 @@
 [ext_resource path="res://assets/fireball_07.png" type="Texture" id=9]
 [ext_resource path="res://assets/fireball_06.png" type="Texture" id=10]
 [ext_resource path="res://fireball/Fireball.gd" type="Script" id=11]
+[ext_resource path="res://assets/FireParticle.png" type="Texture" id=12]
+
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 0, 0.783117, 1 )
+colors = PoolColorArray( 0.910156, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0.00127065, 0.985577 ), 0.0, 0.922842, 0, 0, Vector2( 0.998729, 0.114853 ), -2.22568, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=2]
+emission_shape = 1
+emission_sphere_radius = 40.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 50.0
+initial_velocity_random = 0.1
+angular_velocity = 180.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 6 )
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -20,11 +49,19 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 radius = 41.3309
 
 [node name="Fireball" type="Node2D"]
 script = ExtResource( 11 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+modulate = Color( 1, 1, 1, 0.384314 )
+amount = 20
+visibility_rect = Rect2( -1000, -1000, 2000, 2000 )
+local_coords = false
+process_material = SubResource( 2 )
+texture = ExtResource( 12 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
@@ -32,10 +69,11 @@ frame = 6
 playing = true
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
